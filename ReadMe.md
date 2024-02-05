@@ -100,7 +100,6 @@ Instructions for others to contribute to your project.
 5. Submit a pull request.
 
 ## License
-
 Information about the license of your project.
 
 This project is licensed under the [MIT License](LICENSE).

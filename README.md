@@ -1,6 +1,6 @@
 # Project Name
 
-A brief description of your project.
+This is going to serve as a demo application for a talk I will giving on Demystifying Docker: A Tool for All, Not Just for Some
 
 ## Table of Contents
 

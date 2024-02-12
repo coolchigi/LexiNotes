@@ -1,7 +1,8 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class Note(BaseModel):
-    id: int
+    note_id: int
     title: str
     content: str
-    user_id: str
+    user_id: Optional[str] = None

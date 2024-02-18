@@ -1,4 +1,6 @@
 import motor.motor_asyncio
+from fastapi import HTTPException
+from schematics.exceptions import DataError
 from model import Note
 import os
 from dotenv import load_dotenv
@@ -6,7 +8,7 @@ import uuid
 
 load_dotenv("env/.env_file")
 
-client = motor.motor_asyncio.AsyncIOMotorClient(os.getenv("DB_URL"))
+client = motor.motor_asyncio.AsyncIOMotorClient(os.getenv("DB_WRITE"))
 database = client.NotesDB
 collection = database.notes
 
@@ -16,20 +18,9 @@ async def fetch_all_notes():
         notes.append(Note(**note))
     return notes
 
-# async def create_note(note):
-#     note = note.dict()
-#     result = await collection.insert_one(note)
-#     return note
+def create_note(note: Note):
+    collection.insert_one(note.dict())
 
-async def create_note(note):
-    # Generate a unique user_id in the format "user_xxx"
-    user_id = "user_" + str(uuid.uuid4().hex[:3])
-    # Add the user_id to the note
-    note = note.dict()
-    note["user_id"] = user_id
-    # Insert the note into the MongoDB collection
-    result = await collection.insert_one(note)
-    return note
 
 async def fetch_one_note(id):
     note = await collection.find_one({"_id": id})

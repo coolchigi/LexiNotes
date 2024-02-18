@@ -7,7 +7,7 @@ load_dotenv("env/.env_file")
 
 @pytest.mark.asyncio
 async def test_db_connection():
-    client = motor.motor_asyncio.AsyncIOMotorClient(os.getenv("DB_URL"))
+    client = motor.motor_asyncio.AsyncIOMotorClient(os.getenv("DB_WRITE"))
     database = client.notes_db
     collection = database.notes
 

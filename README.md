@@ -1,6 +1,7 @@
 # LexiNotes
 
 A blend of “lexicon” and “notes”
+
 LexiNotes is a versatile note-taking application built with React, Typescript, and FastAPI. Whether you’re a developer, designer, or a productivity enthusiast, LexiNotes provides a clean and efficient platform to organize your thoughts.
 
 ## Table of Contents

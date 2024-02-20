@@ -1,4 +1,4 @@
-# Project Name
+# LexiNotes
 
 The goal of this project is to build a Notes taking application that allows users take notes.
 

@@ -1,9 +1,10 @@
 # Project Name
 
-This is going to serve as a demo application for a talk I will giving on Demystifying Docker: A Tool for All, Not Just for Some
+The goal of this project is to build a Notes taking application that allows users take notes.
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)
+- [Inspiration](#inspiration)
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Documentation](#api-documentation)

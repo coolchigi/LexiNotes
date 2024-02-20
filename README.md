@@ -1,6 +1,7 @@
 # LexiNotes
 
-The goal of this project is to build a Notes taking application that allows users take notes.
+A blend of “lexicon” and “notes”
+LexiNotes is a versatile note-taking application built with React, Typescript, and FastAPI. Whether you’re a developer, designer, or a productivity enthusiast, LexiNotes provides a clean and efficient platform to organize your thoughts.
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)

@@ -6,7 +6,7 @@ import { NewNote } from './NewNote'
 
 function App() {
   return (
-    <Container className='mb-4'>
+    <Container className='my-4'>
     <Routes>
       <Route path='/' element={<h1>Notes</h1>}></Route>
       <Route path='/new' element={<NewNote />}></Route>

@@ -3,7 +3,6 @@
 This is going to serve as a demo application for a talk I will giving on Demystifying Docker: A Tool for All, Not Just for Some
 
 ## Table of Contents
-
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -30,13 +29,13 @@ Step-by-step instructions on how to install and set up your application.
 3. Install backend dependencies: `cd backend && pip install -r requirements.txt`
 4. Configure environment variables: Create a `.env` file in the root directory and add any necessary environment variables.
 5. Start the frontend development server: `cd frontend && npm start`
-6. Start the backend server: `cd backend && uvicorn main:app --reload`
+6. Start the backend server: `cd backend && uvicorn app:app --reload`
 
 ## Usage
 
 Instructions on how to use your application.
 
-1. Open your web browser and navigate to `http://localhost:3000`.
+1. Open your web browser and navigate to `http://localhost:8080`.
 2. Sign up or log in to access the application.
 3. Explore the different features and functionalities.
 

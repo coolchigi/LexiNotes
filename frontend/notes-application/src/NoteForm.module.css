@@ -1,0 +1,123 @@
+.noteForm {
+  width: 100%;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+  display: block;
+  font-size: 1.1rem;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #333;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #2980b9;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+}
+
+.textarea {
+  min-height: 200px;
+  resize: vertical;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.saveButton {
+  background-color: #3498db;
+  color: white;
+}
+
+.saveButton:hover {
+  background-color: #2980b9;
+}
+
+.cancelButton {
+  background-color: #95a5a6;
+  color: white;
+}
+
+.cancelButton:hover {
+  background-color: #7f8c8d;
+}
+
+.tagSelect {
+  margin-bottom: 1rem;
+}
+
+.tagSelect :global(.react-select__control) {
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.tagSelect :global(.react-select__control:hover) {
+  border-color: #2980b9;
+}
+
+.tagSelect :global(.react-select__control--is-focused) {
+  border-color: #2980b9;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+}
+
+.tagSelect :global(.react-select__multi-value) {
+  background-color: #f1f0f0;
+  border-radius: 4px;
+}
+
+.tagSelect :global(.react-select__multi-value__label) {
+  color: #2980b9;
+}
+
+.tagSelect :global(.react-select__multi-value__remove) {
+  color: #2980b9;
+}
+
+.tagSelect :global(.react-select__multi-value__remove:hover) {
+  background-color: #c0392b;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .noteForm {
+    margin: 1rem auto;
+    padding: 1rem;
+  }
+}

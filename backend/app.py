@@ -5,7 +5,7 @@ from database import(fetch_all_notes, create_note, fetch_one_note, update_note, 
 
 app = FastAPI()
 
-origins = ['https://localhost:3000']
+origins = ['https://localhost:5173']
 
 app.add_middleware(
     CORSMiddleware,

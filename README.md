@@ -2,7 +2,7 @@
 
 A blend of “lexicon” and “notes”
 
-<h3> LexiNotes is a versatile note-taking application built with React, Typescript, and FastAPI. Whether you’re a developer, designer, or a productivity enthusiast, LexiNotes provides a clean and efficient platform to organize your thoughts.</h3>
+<h3> LexiNotes is a versatile note-taking application built with React, Typescript, and FastAPI. What started out as a POC has grown or rather growing into so much more. Watch this space, thanks!</h3>
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)
@@ -21,6 +21,7 @@ Prerequisites or dependencies required to run your application.
 - Node.js
 - Python
 - FastAPI
+- MongoDB
 - etc.
 
 ## Installation

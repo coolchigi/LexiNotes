@@ -2,184 +2,115 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { 
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { FileText, Tag, Folder, Plus, Search, StickyNoteIcon } from 'lucide-react'
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Search, Plus, StickyNote } from 'lucide-react'
 
-// Temporary type definition for Note
 type Note = {
   id: string
   title: string
   content: string
   tags: string[]
   category: string
-  createdAt: string
   color: string
+  created_at: string
+  updated_at: string
 }
 
-// Temporary mock data
 const mockNotes: Note[] = [
-  { id: '1', title: 'Meeting Notes', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec ultricies lacus, nisl nec ultricies lacus.', tags: ['Work', 'Meeting'], category: 'Work', createdAt: '2023-05-15', color: 'bg-blue-500' },
-  { id: '2', title: 'Grocery List', content: 'Milk, Eggs, Bread, Apples, Bananas, Chicken, Rice, Pasta', tags: ['Personal', 'Shopping'], category: 'Personal', createdAt: '2023-05-14', color: 'bg-green-500' },
-  { id: '3', title: 'Project Roadmap', content: '1. Finalize design 2. Implement core features 3. Test and deploy', tags: ['Work', 'Project'], category: 'Work', createdAt: '2023-05-08', color: 'bg-purple-500' },
-  { id: '4', title: 'Book Ideas', content: '1. Sci-Fi novel about time travel 2. Children\'s book about friendship 3. Memoir about overcoming adversity', tags: ['Personal', 'Creative'], category: 'Personal', createdAt: '2023-04-15', color: 'bg-yellow-500' },
+  { id: '1', title: 'Meeting Notes', content: 'Discussed project timeline and milestones...', tags: ['work', 'project'], category: 'Work', color: '#5865F2', created_at: '2023-06-01T10:00:00Z', updated_at: '2023-06-01T10:00:00Z' },
+  { id: '2', title: 'Ideas for Blog', content: 'Potential topics: React hooks, TypeScript tips...', tags: ['personal', 'writing'], category: 'Personal', color: '#57F287', created_at: '2023-06-02T14:30:00Z', updated_at: '2023-06-02T14:30:00Z' },
+  { id: '3', title: 'Shopping List', content: 'Groceries: milk, eggs, bread...', tags: ['personal'], category: 'Personal', color: '#ED4245', created_at: '2023-06-03T09:15:00Z', updated_at: '2023-06-03T09:15:00Z' },
+  { id: '4', title: 'Book Notes: Atomic Habits', content: 'Key concepts: 1% better every day...', tags: ['reading', 'self-improvement'], category: 'Personal', color: '#FEE75C', created_at: '2023-06-04T20:00:00Z', updated_at: '2023-06-04T20:00:00Z' },
 ]
 
 export function HomePage() {
   const [searchTerm, setSearchTerm] = useState('')
-  const [notes, setNotes] = useState<Note[]>(mockNotes)
-  const [sortBy, setSortBy] = useState('date')
-  const [filterBy, setFilterBy] = useState('all')
+  const [sortBy, setSortBy] = useState<'title' | 'updated_at'>('updated_at')
+  const [filterTag, setFilterTag] = useState<string | null>(null)
 
-  const filteredAndSortedNotes = notes
-    .filter(note => {
-      if (filterBy === 'all') return true
-      return note.category.toLowerCase() === filterBy.toLowerCase()
-    })
-    .filter(note =>
+  const filteredNotes = mockNotes
+    .filter(note => 
       note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       note.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
       note.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
     )
-    .sort((a, b) => {
-      if (sortBy === 'date') {
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      } else if (sortBy === 'title') {
-        return a.title.localeCompare(b.title)
-      }
-      return 0
-    })
+    .filter(note => filterTag ? note.tags.includes(filterTag) : true)
+    .sort((a, b) => sortBy === 'title' 
+      ? a.title.localeCompare(b.title) 
+      : new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+    )
 
-  const categories = ['Work', 'Personal', 'Study', 'Other']
-  const recentTags = ['Work', 'Meeting', 'Personal', 'Shopping', 'Project', 'Creative']
+  const allTags = Array.from(new Set(mockNotes.flatMap(note => note.tags)))
 
   return (
-    <div className="flex h-screen bg-background">
-      {/* Sidebar */}
-      <div className="w-64 border-r p-4 bg-secondary/10">
-        <h1 className="text-2xl font-bold italic mb-6">LexiNotes</h1>
-        <nav className="space-y-2 mb-6">
-          <Link to="/" className="flex items-center space-x-2 text-primary hover:underline">
-            <FileText size={20} />
-            <span>All Notes</span>
-          </Link>
-          <Link to="/tags" className="flex items-center space-x-2 text-foreground hover:text-primary hover:underline">
-            <Tag size={20} />
-            <span>Tags</span>
-          </Link>
-          <Link to="/categories" className="flex items-center space-x-2 text-foreground hover:text-primary hover:underline">
-            <Folder size={20} />
-            <span>Categories</span>
-          </Link>
-        </nav>
-        <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-2">Categories</h2>
-          {categories.map(category => (
-            <button
-              key={category}
-              onClick={() => setFilterBy(category.toLowerCase())}
-              className={`block w-full text-left px-2 py-1 rounded ${filterBy === category.toLowerCase() ? 'bg-primary text-primary-foreground' : 'hover:bg-secondary'}`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-        <div>
-          <h2 className="text-lg font-semibold mb-2">Recent Tags</h2>
-          <div className="flex flex-wrap gap-2">
-            {recentTags.map(tag => (
-              <span key={tag} className="bg-secondary text-secondary-foreground text-xs px-2 py-1 rounded-full">
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
+    <div className="p-6">
+      <div className="mb-6 flex justify-between items-center">
+        <h1 className="text-3xl font-bold text-[#dcddde]">My Notes</h1>
+        <Link to="/new">
+          <Button className="bg-[#5865f2] hover:bg-[#4752c4]">
+            <Plus className="w-4 h-4 mr-2" />
+            New Note
+          </Button>
+        </Link>
       </div>
 
-      {/* Main content */}
-      <div className="flex-1 p-4 overflow-hidden">
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center space-x-2">
-            <div className="relative w-64">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search notes..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-8"
-              />
-            </div>
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="date">Date</SelectItem>
-                <SelectItem value="title">Title</SelectItem>
-              </SelectContent>
-            </Select>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline">Filter by</Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onSelect={() => setFilterBy('all')}>All</DropdownMenuItem>
-                {categories.map(category => (
-                  <DropdownMenuItem key={category} onSelect={() => setFilterBy(category.toLowerCase())}>
-                    {category}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-          <Link to="/new">
-            <Button>
-              <Plus className="mr-2 h-4 w-4" /> New Note
-            </Button>
-          </Link>
+      <div className="mb-6 flex space-x-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#72767d]" />
+          <Input
+            type="text"
+            placeholder="Search notes..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 bg-[#40444b] border-[#40444b] text-[#dcddde] placeholder-[#72767d]"
+          />
         </div>
-        <ScrollArea className="h-[calc(100vh-120px)]">
-          <div className="space-y-4">
-            {filteredAndSortedNotes.map(note => (
-              <div key={note.id} className="bg-card rounded-lg p-4 shadow flex">
-                <div className="mr-4 mt-1">
-                  <div className={`p-2 rounded ${note.color}`}>
-                    <StickyNoteIcon className="h-6 w-6 text-white" />
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <div className="flex justify-between items-start mb-2">
-                    <h2 className="text-xl font-semibold">{note.title}</h2>
-                    <span className="text-sm text-muted-foreground">
-                      {new Date(note.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                    </span>
-                  </div>
-                  <p className="text-muted-foreground mb-2">{note.content}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {note.tags.map(tag => (
-                      <span key={tag} className="bg-secondary text-secondary-foreground text-xs px-2 py-1 rounded-full">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value as 'title' | 'updated_at')}
+          className="bg-[#40444b] border-[#40444b] text-[#dcddde] rounded-md"
+        >
+          <option value="updated_at">Sort by Date</option>
+          <option value="title">Sort by Title</option>
+        </select>
+      </div>
+
+      <div className="mb-6 flex flex-wrap gap-2">
+        {allTags.map(tag => (
+          <Badge
+            key={tag}
+            variant={filterTag === tag ? "default" : "secondary"}
+            className={`cursor-pointer ${filterTag === tag ? 'bg-[#5865f2]' : 'bg-[#4f545c]'} text-[#dcddde]`}
+            onClick={() => setFilterTag(filterTag === tag ? null : tag)}
+          >
+            {tag}
+          </Badge>
+        ))}
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {filteredNotes.map(note => (
+          <Card key={note.id} className="bg-[#2f3136] border-[#40444b]">
+            <CardContent className="p-4">
+              <div className="flex items-start justify-between mb-2">
+                <h2 className="text-xl font-semibold text-[#dcddde]">{note.title}</h2>
+                <StickyNote className="w-5 h-5" style={{ color: note.color }} />
               </div>
-            ))}
-          </div>
-        </ScrollArea>
+              <p className="text-[#b9bbbe] mb-4">{note.content.substring(0, 100)}...</p>
+              <div className="flex flex-wrap gap-2 mb-2">
+                {note.tags.map(tag => (
+                  <Badge key={tag} variant="secondary" className="bg-[#4f545c] text-[#dcddde]">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+              <div className="text-[#72767d] text-sm">
+                Updated: {new Date(note.updated_at).toLocaleDateString()}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   )
